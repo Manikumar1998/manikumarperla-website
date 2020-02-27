@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class Header extends Component {
   render() {
+    const { branding } = this.props;
     return (
       <nav
         className="navbar navbar-expand-sm fixed-top"
@@ -9,7 +11,7 @@ class Header extends Component {
       >
         <div className="container my-2">
           <a className="navbar-brand text-dark font-weight-bold" href="#">
-            {this.props.branding}
+            {branding}
           </a>
           <button type="button" className="btn btn-outline-info ml-auto mr-1">
             Contact Me
@@ -39,5 +41,13 @@ class Header extends Component {
     );
   }
 }
+
+Header.defaultProps = {
+  branding: "Manikumar Perla"
+};
+
+Header.propTypes = {
+  branding: PropTypes.string.isRequired
+};
 
 export default Header;

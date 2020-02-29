@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -7,26 +8,28 @@ function Footer() {
         <div className="row">
           <div className="col-12 text-center text-light my-5">
             <h2>Interested in working with me?</h2>
-            <button type="button" className="btn btn-outline-light btn-lg mt-3">
-              Let's talk
-            </button>
+            <Link to="/contact" className="mt-3">
+              <button type="button" className="btn btn-outline-light btn-lg">
+                Let's talk
+              </button>
+            </Link>
           </div>
         </div>
         <div className="row">
           <div className="col-sm-4 text-center my-5">
             <h5 className="pb-3 text-info">More links</h5>
-            <a href="#" className="text-light" style={blockStyle}>
+            <Link to="/" className="text-light" style={blockStyle}>
               Blogs
-            </a>
-            <a href="#" className="text-light" style={blockStyle}>
+            </Link>
+            <Link to="/" className="text-light" style={blockStyle}>
               Home
-            </a>
-            <a href="#" className="text-light" style={blockStyle}>
+            </Link>
+            <Link to="/contact" className="text-light" style={blockStyle}>
               Contact me
-            </a>
-            <a href="#" className="text-light" style={blockStyle}>
+            </Link>
+            <Link to="/" className="text-light" style={blockStyle}>
               Write a recommendation <i className="fas fa-heart text-light"></i>
-            </a>
+            </Link>
           </div>
 
           <div className="col-sm-4 text-justify my-5 text-light">
@@ -47,15 +50,15 @@ function Footer() {
 
           <div className="col-sm-4 text-center my-5">
             <h5 className="text-info pb-3">Social</h5>
-            <a href="#" style={blockStyle}>
+            <Link href="/" style={blockStyle}>
               <i className="fab fa-linkedin text-light h1"></i>
-            </a>
-            <a href="#" style={blockStyle}>
+            </Link>
+            <Link href="/" style={blockStyle}>
               <i className="fab fa-github text-light h1"></i>
-            </a>
-            <a href="#" style={blockStyle}>
+            </Link>
+            <Link href="/" style={blockStyle}>
               <i className="fas fa-envelope text-light h1"></i>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="row">

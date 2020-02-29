@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 class Header extends Component {
   render() {
@@ -10,12 +11,14 @@ class Header extends Component {
         style={{ backgroundColor: "white" }}
       >
         <div className="container my-2">
-          <a className="navbar-brand text-dark font-weight-bold" href="#">
+          <Link className="navbar-brand text-dark font-weight-bold" to="/">
             {branding}
-          </a>
-          <button type="button" className="btn btn-outline-info ml-auto mr-1">
-            Contact Me
-          </button>
+          </Link>
+          <Link to="/contact" className="ml-auto mr-1">
+            <button type="button" className="btn btn-outline-info ">
+              Contact Me
+            </button>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -30,9 +33,9 @@ class Header extends Component {
           >
             <ul className="navbar-nav">
               <li className="nav-item mx-4">
-                <a className="nav-link text-dark h6 my-auto" href="#">
+                <Link className="nav-link text-dark h6 my-auto" to="/">
                   Blogs
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

@@ -1,20 +1,22 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./Components/Header";
-import Title from "./Components/Title";
-import SkillStack from "./Components/SkillStack";
 import Footer from "./Components/Footer";
+import ContactPage from "./Components/ContactPage";
+import HomePage from "./Components/HomePage";
 
 function App() {
   return (
-    <div className="App">
-      <Header branding="Manikumar Perla" />
-      <Title
-        name="Manikumar"
-        lead="I am a software engineer at LINE Corporation"
-      />
-      <SkillStack />
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Header branding="Manikumar Perla" />
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/contact" component={ContactPage} />
+        </Switch>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

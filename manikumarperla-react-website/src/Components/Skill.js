@@ -9,12 +9,11 @@ class Skill extends Component {
       if (i < activeStars) {
         rating.push(
           <span key={uuid()} className="text-info">
-            {" "}
-            ★{" "}
+            ★
           </span>
         );
       } else {
-        rating.push(<span key={uuid()}> ★ </span>);
+        rating.push(<span key={uuid()}>★</span>);
       }
     }
     const skillStyle = {

@@ -65,7 +65,10 @@ class SkillStack extends Component {
         (index + 1) * noOfSkillPerRow
       );
       skillRow.push(
-        <div className="d-flex flex-row justify-content-around py-3">
+        <div
+          key={uuid()}
+          className="d-flex flex-row justify-content-around py-3"
+        >
           {row.map(skill => (
             <Skill key={uuid()} skill={skill} />
           ))}

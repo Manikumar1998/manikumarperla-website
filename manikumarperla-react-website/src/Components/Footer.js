@@ -50,13 +50,13 @@ function Footer() {
 
           <div className="col-sm-4 text-center my-5">
             <h5 className="text-info pb-3">Social</h5>
-            <Link href="/" style={blockStyle}>
+            <Link to="/" style={blockStyle}>
               <i className="fab fa-linkedin text-light h1"></i>
             </Link>
-            <Link href="/" style={blockStyle}>
+            <Link to="/" style={blockStyle}>
               <i className="fab fa-github text-light h1"></i>
             </Link>
-            <Link href="/" style={blockStyle}>
+            <Link to="/" style={blockStyle}>
               <i className="fas fa-envelope text-light h1"></i>
             </Link>
           </div>

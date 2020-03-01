@@ -34,7 +34,7 @@ class Header extends Component {
             <ul className="navbar-nav">
               <li className="nav-item mx-4">
                 <Link className="nav-link text-dark h6 my-auto" to="/">
-                  Blogs
+                  Projects
                 </Link>
               </li>
             </ul>

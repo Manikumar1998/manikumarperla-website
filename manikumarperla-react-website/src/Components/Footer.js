@@ -19,15 +19,19 @@ function Footer() {
           <div className="col-sm-4 text-center my-5">
             <h5 className="pb-3 text-info">More links</h5>
             <Link to="/" className="text-light" style={blockStyle}>
-              Blogs
+              Home
             </Link>
             <Link to="/" className="text-light" style={blockStyle}>
-              Home
+              Projects
             </Link>
             <Link to="/contact" className="text-light" style={blockStyle}>
               Contact me
             </Link>
-            <Link to="/" className="text-light" style={blockStyle}>
+            <Link
+              to="/write-a-recommendation"
+              className="text-light"
+              style={blockStyle}
+            >
               Write a recommendation <i className="fas fa-heart text-light"></i>
             </Link>
           </div>

@@ -6,6 +6,7 @@ import ContactPage from "./Components/ContactPage";
 import HomePage from "./Components/HomePage";
 import ProjectPage from "./Components/ProjectPage";
 import AddProject from "./Components/AddProject";
+import Recommendation from "./Components/Recommendation";
 
 function App() {
   return (
@@ -17,6 +18,11 @@ function App() {
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/project/add" component={AddProject} />
           <Route exact path="/project/:id" component={ProjectPage} />
+          <Route
+            exact
+            path="/write-a-recommendation/"
+            component={Recommendation}
+          />
         </Switch>
         <Footer />
       </div>

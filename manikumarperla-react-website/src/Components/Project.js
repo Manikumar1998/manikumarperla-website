@@ -1,27 +1,26 @@
 import React, { Component } from "react";
 
-class Project extends Component {
+class ProjectPage extends Component {
+  state = {
+    content: "This is some random content for the blog"
+  };
   render() {
-    const { imageUrl, title, excerpt } = this.props.project;
+    const { id } = this.props;
+    const { content } = this.state;
     return (
-      <div className="col-12 col-md-4 py-3">
-        <div className="card shadow">
-          <img
-            className="card-img-top img-fluid"
-            src={require(`../assets/${imageUrl}`)}
-            alt="Project"
-          />
-          <div className="card-footer text-center">
-            <h4 className="card-title">{title}</h4>
-            <p className="card-text">
-              {excerpt}
-              <a href="/" className="text-dark stretched-link"></a>
-            </p>
+      <div className="container-fluid py-5 my-5">
+        <div className="container shadow">
+          <div className="row justify-content-center py-2">
+            <img src={require("../assets/Armeria.jpg")} width="500px" />
           </div>
+          <div className="row justify-content-center py-2">
+            <div className="h1">This is the title of the project {id}</div>
+          </div>
+          <div className="text-justify p-5">{content}</div>
         </div>
       </div>
     );
   }
 }
 
-export default Project;
+export default ProjectPage;

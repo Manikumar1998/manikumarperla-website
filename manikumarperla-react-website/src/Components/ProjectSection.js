@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Project from "./Project";
-import uuid from "uuid";
+import ProjectCard from "./ProjectCard";
 
 class ProjectSection extends Component {
   state = {
@@ -28,21 +27,22 @@ class ProjectSection extends Component {
   render() {
     const { projects } = this.state;
     return (
-      <div class="container py-5 text-center">
-        <h1 class="font-weight-light">
-          My <span class="text-info">Projects</span>
+      <div className="container py-5 text-center">
+        <h1 className="font-weight-light">
+          My <span className="text-info">Projects</span>
         </h1>
-        <div class="lead">I build products. Just like this website</div>
-        <div class="row my-4 pt-4 justify-content-center">
+        <div className="lead">I build products. Just like this website</div>
+        <div className="row my-4 pt-4 justify-content-center">
           {projects.map(project => (
-            <Project key={project.id} project={project} />
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-        <div class="row my-5">
-          <div class="col-12 text-right">
-            <a href="#" class="text-dark">
+        <div className="row my-5">
+          <div className="col-12 text-right">
+            <a href="/" className="text-dark">
               <h5>
-                See my projects <i class="fas fa-arrow-right align-middle"></i>
+                See my projects{" "}
+                <i className="fas fa-arrow-right align-middle"></i>
               </h5>
             </a>
           </div>

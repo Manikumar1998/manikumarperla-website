@@ -13,7 +13,8 @@ class ProjectCard extends Component {
             alt="Project"
           />
           <div className="card-footer text-center">
-            <h4 className="card-title">{title}</h4>
+            <h4 className="card-title">{title} </h4>
+
             <p className="card-text">
               {excerpt}
               <Link

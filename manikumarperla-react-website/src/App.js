@@ -7,6 +7,7 @@ import HomePage from "./Components/HomePage";
 import ProjectPage from "./Components/ProjectPage";
 import AddProject from "./Components/AddProject";
 import Recommendation from "./Components/Recommendation";
+import Notfound from "./Components/Notfound";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             path="/write-a-recommendation/"
             component={Recommendation}
           />
+          <Route component={Notfound} />
         </Switch>
         <Footer />
       </div>

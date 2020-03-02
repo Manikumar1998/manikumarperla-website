@@ -24,7 +24,6 @@ class AddProject extends Component {
 
   render() {
     const { imageUrl, title, excerpt, mdContent } = this.state;
-    const markdown = `This block of Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.`;
     const ReactMarkdown = require("react-markdown/with-html");
     const input = "# This is a header\nAnd this is a paragraph";
     return (
@@ -84,7 +83,7 @@ class AddProject extends Component {
           <div className="col-6 py-3">
             <div className="container shadow">
               <div className="row justify-content-center py-5">
-                <img src={imageUrl} maxWidth="500px" />
+                <img src={imageUrl} alt="" maxWidth="500px" />
               </div>
               <div className="row justify-content-center px-5">
                 <h1 className="font-weight-light text-center">{title}</h1>

@@ -2,8 +2,26 @@ import React, { Component } from "react";
 
 const Context = React.createContext();
 
+const reducer = (state, action, value) => {
+  switch (action) {
+    case "ADD_RECOMMENDATION":
+      console.log(value);
+      return {
+        ...state,
+        recommendations: [value, ...state.recommendations]
+      };
+    default:
+      console.log("default");
+      break;
+  }
+};
+
 export class Provider extends Component {
   state = {
+    dispatch: (action, payload) => {
+      this.setState(state => reducer(state, action, payload));
+    },
+
     projects: [
       {
         id: 1,
@@ -89,8 +107,7 @@ export class Provider extends Component {
         email: "hitesh@gmail.com",
         company: "Oisix ra Daichi",
         designation: "SRE",
-        message:
-          "He is smart af!"
+        message: "He is smart af!"
       },
       {
         id: 1,

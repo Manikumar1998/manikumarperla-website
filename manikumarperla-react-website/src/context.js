@@ -23,6 +23,56 @@ export class Provider extends Component {
         title: "Project 1",
         excerpt: "This is a sample project"
       }
+    ],
+    skills: [
+      {
+        image: "Armeria.jpg",
+        alt: "Armeria",
+        totalStars: 3,
+        activeStars: 2
+      },
+      {
+        image: "Armeria.jpg",
+        alt: "Armeria",
+        totalStars: 3,
+        activeStars: 1
+      },
+      {
+        image: "Armeria.jpg",
+        alt: "Armeria",
+        totalStars: 3,
+        activeStars: 4
+      },
+      {
+        image: "Armeria.jpg",
+        alt: "Armeria",
+        totalStars: 3,
+        activeStars: 2
+      },
+      {
+        image: "Armeria.jpg",
+        alt: "Armeria",
+        totalStars: 3,
+        activeStars: 2
+      },
+      {
+        image: "Armeria.jpg",
+        alt: "Armeria",
+        totalStars: 3,
+        activeStars: 1
+      },
+      {
+        image: "Armeria.jpg",
+        alt: "Armeria",
+        totalStars: 3,
+        activeStars: 1
+      },
+      {
+        image: "Armeria.jpg",
+        alt: "Armeria",
+        totalStars: 3,
+        activeStars: 3
+      }
     ]
   };
 

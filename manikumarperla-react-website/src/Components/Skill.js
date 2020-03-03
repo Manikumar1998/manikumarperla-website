@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import uuid from "uuid";
+import { Link } from "react-router-dom";
 
 class Skill extends Component {
   render() {
-    const { image, alt, totalStars, activeStars } = this.props.skill;
+    const { id, image, alt, totalStars, activeStars } = this.props.skill;
     const rating = [];
     for (let i = 0; i < totalStars; i++) {
       if (i < activeStars) {
@@ -29,7 +30,7 @@ class Skill extends Component {
           alt={alt}
           style={skillStyle}
         />
-        <div className="justify-content-around"> {rating} </div>
+        <div className="justify-content-around">{rating}</div>
       </div>
     );
   }

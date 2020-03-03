@@ -9,7 +9,7 @@ import AddProject from "./Components/AddProject";
 import Recommendation from "./Components/Recommendation";
 import Notfound from "./Components/Notfound";
 import { Provider } from "./context";
-import UpdateProject from "./Components/UpdateProject";
+import EditSkill from "./Components/EditSkill";
 
 function App() {
   return (
@@ -27,6 +27,7 @@ function App() {
               path="/write-a-recommendation/"
               component={Recommendation}
             />
+            <Route exact path="/skill/update/:id" component={EditSkill} />
             <Route component={Notfound} />
           </Switch>
           <Footer />

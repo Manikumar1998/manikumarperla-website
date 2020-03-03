@@ -26,52 +26,95 @@ export class Provider extends Component {
     ],
     skills: [
       {
+        id: 0,
         image: "Armeria.jpg",
         alt: "Armeria",
         totalStars: 3,
         activeStars: 2
       },
       {
+        id: 1,
         image: "Armeria.jpg",
         alt: "Armeria",
         totalStars: 3,
         activeStars: 1
       },
       {
+        id: 2,
         image: "Armeria.jpg",
         alt: "Armeria",
         totalStars: 3,
         activeStars: 4
       },
       {
+        id: 3,
         image: "Armeria.jpg",
         alt: "Armeria",
         totalStars: 3,
         activeStars: 2
       },
       {
+        id: 4,
         image: "Armeria.jpg",
         alt: "Armeria",
         totalStars: 3,
         activeStars: 2
       },
       {
+        id: 5,
         image: "Armeria.jpg",
         alt: "Armeria",
         totalStars: 3,
         activeStars: 1
       },
       {
+        id: 6,
         image: "Armeria.jpg",
         alt: "Armeria",
         totalStars: 3,
         activeStars: 1
       },
       {
+        id: 7,
         image: "Armeria.jpg",
         alt: "Armeria",
         totalStars: 3,
         activeStars: 3
+      }
+    ],
+    recommendations: [
+      {
+        id: 0,
+        name: "Hitesh Jonnalagadda",
+        email: "hitesh@gmail.com",
+        company: "Oisix ra Daichi",
+        designation: "SRE",
+        message:
+          "He is smart af!"
+      },
+      {
+        id: 1,
+        name: "Hitesh Jonnalagadda",
+        email: "hitesh@gmail.com",
+        company: "Oisix ra Daichi",
+        designation: "SRE",
+        message: "He is smart af!"
+      },
+      {
+        id: 2,
+        name: "Hitesh Jonnalagadda",
+        email: "hitesh@gmail.com",
+        company: "Oisix ra Daichi",
+        designation: "SRE",
+        message: "He is smart af!"
+      },
+      {
+        id: 3,
+        name: "Hitesh Jonnalagadda",
+        email: "hitesh@gmail.com",
+        company: "Oisix ra Daichi",
+        designation: "SRE",
+        message: "He is smart af!"
       }
     ]
   };

@@ -20,7 +20,7 @@ class EditSkill extends Component {
     return (
       <Consumer>
         {value => {
-          const { id } = this.props.match.params;
+        //   const { id } = this.props.match.params;
           const { logoUrl, totalStars, activeStars } = this.state;
           return (
             <div className="container my-5 py-5">

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import uuid from "uuid";
-import { Link } from "react-router-dom";
 
 class Skill extends Component {
   render() {
-    const { id, image, alt, totalStars, activeStars } = this.props.skill;
+    const { image, alt, totalStars, activeStars } = this.props.skill;
     const rating = [];
     for (let i = 0; i < totalStars; i++) {
       if (i < activeStars) {

@@ -10,11 +10,13 @@ import Recommendation from "./Components/Recommendation";
 import Notfound from "./Components/Notfound";
 import { Provider } from "./context";
 import EditSkill from "./Components/EditSkill";
+import ScrollToTop from "./Components/ScrollToTop";
 
 function App() {
   return (
     <Provider>
       <Router>
+        <ScrollToTop />
         <div className="App">
           <Header branding="Manikumar Perla" />
           <Switch>

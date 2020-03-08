@@ -3,10 +3,10 @@ import uuid from "uuid";
 
 class Skill extends Component {
   render() {
-    const { image, alt, totalStars, activeStars } = this.props.skill;
+    const { imageUrl, name, starsTotal, starsActive } = this.props.skill;
     const rating = [];
-    for (let i = 0; i < totalStars; i++) {
-      if (i < activeStars) {
+    for (let i = 0; i < starsTotal; i++) {
+      if (i < starsActive) {
         rating.push(
           <span key={uuid()} className="text-info">
             ★
@@ -25,8 +25,8 @@ class Skill extends Component {
       <div>
         <img
           className="rounded-circle img-fluid"
-          src={require(`../assets/${image}`)}
-          alt={alt}
+          src={imageUrl}
+          alt={name}
           style={skillStyle}
         />
         <div className="justify-content-around">{rating}</div>

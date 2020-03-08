@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Consumer } from "../context";
+import axios from "axios";
 import uuid from "uuid";
 
 class Recommendation extends Component {
@@ -8,7 +9,7 @@ class Recommendation extends Component {
     email: "",
     company: "",
     designation: "",
-    message: "",
+    recommendationMessage: "",
     submitStatus: "",
     submitMessage: ""
   };
@@ -16,33 +17,42 @@ class Recommendation extends Component {
   onChange = event =>
     this.setState({ [event.target.name]: event.target.value });
 
-  onSubmit = (action, handler, event) => {
+  onSubmit = async (action, handler, serverUrl, event) => {
     event.preventDefault();
-    const { name, email, company, designation, message } = this.state;
+    const {
+      name,
+      email,
+      company,
+      designation,
+      recommendationMessage
+    } = this.state;
     const newItem = {
       id: uuid(),
       name,
       email,
       company,
       designation,
-      message
+      recommendationMessage
     };
 
-    handler(action, newItem);
-    // Send a post request
-    let isSuccessful = true;
+    const res = await axios.post(
+      "http://localhost:5000/recommendations/add",
+      newItem
+    );
+    const isSuccessful = res.data.successful;
+    const serverMessage = res.data.message;
 
+    handler(action, newItem);
     // Show submit message
     if (isSuccessful) {
       this.setState({
         submitStatus: "text-info",
-        submitMessage: `Hey ${this.state.name}. Thank you so much for your message. I really appreciate it ♥`
+        submitMessage: serverMessage
       });
     } else {
       this.setState({
         submitStatus: "text-danger",
-        submitMessage:
-          "Oops! Something went wrong. Couldn't send the message! :("
+        submitMessage: serverMessage
       });
     }
     this.setState({
@@ -50,7 +60,7 @@ class Recommendation extends Component {
       email: "",
       company: "",
       designation: "",
-      message: ""
+      recommendationMessage: ""
     });
   };
 
@@ -60,14 +70,14 @@ class Recommendation extends Component {
       email,
       company,
       designation,
-      message,
+      recommendationMessage,
       submitStatus,
       submitMessage
     } = this.state;
     return (
       <Consumer>
         {value => {
-          const { dispatch } = value;
+          const { dispatch, serverUrl } = value;
           return (
             <div className="container my-5 py-5">
               <div className="row justify-content-center py-5">
@@ -82,7 +92,8 @@ class Recommendation extends Component {
                     onSubmit={this.onSubmit.bind(
                       this,
                       "ADD_RECOMMENDATION",
-                      dispatch
+                      dispatch,
+                      serverUrl
                     )}
                   >
                     <div className="form-group">
@@ -126,12 +137,14 @@ class Recommendation extends Component {
                       ></input>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="message">Recommendation *</label>
+                      <label htmlFor="recommendationMessage">
+                        Recommendation *
+                      </label>
                       <textarea
                         className="form-control"
-                        name="message"
+                        name="recommendationMessage"
                         rows="5"
-                        value={message}
+                        value={recommendationMessage}
                         onChange={this.onChange}
                       ></textarea>
                     </div>

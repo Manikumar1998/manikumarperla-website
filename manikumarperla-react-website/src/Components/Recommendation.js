@@ -35,10 +35,7 @@ class Recommendation extends Component {
       recommendationMessage
     };
 
-    const res = await axios.post(
-      "http://localhost:5000/recommendations/add",
-      newItem
-    );
+    const res = await axios.post(serverUrl + "recommendations/add", newItem);
     const isSuccessful = res.data.successful;
     const serverMessage = res.data.message;
 

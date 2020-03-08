@@ -11,6 +11,7 @@ import Notfound from "./Components/Notfound";
 import { Provider } from "./context";
 import EditSkill from "./Components/EditSkill";
 import ScrollToTop from "./Components/ScrollToTop";
+import AllProjects from "./Components/AllProjects";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/contact" component={ContactPage} />
             <Route exact path="/project/add" component={AddProject} />
+            <Route exact path="/project/all" component={AllProjects} />
             <Route exact path="/project/:id" component={ProjectPage} />
             <Route
               exact

@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_cors import CORS
 import pymysql
 from datetime import datetime
 
@@ -8,6 +9,7 @@ db_connection = pymysql.connect(
 db_connection.autocommit(True)
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/", methods=["GET"])

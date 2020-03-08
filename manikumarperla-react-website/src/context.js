@@ -39,7 +39,7 @@ export class Provider extends Component {
     this.setState({
       projects: resultProjects.data.payload,
       skills: resultSkills.data.payload,
-      recommendations: resultRecommendations.data.payload,
+      recommendations: resultRecommendations.data.payload
     });
   }
 

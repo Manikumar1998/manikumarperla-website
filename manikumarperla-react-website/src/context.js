@@ -31,15 +31,20 @@ export class Provider extends Component {
 
   async componentDidMount() {
     const { serverUrl } = this.state;
-    const resultSkills = await axios.get(serverUrl + "skills");
-    const resultRecommendations = await axios.get(
-      serverUrl + "recommendations"
-    );
-    const resultProjects = await axios.get(serverUrl + "projects");
+    const [
+      resultRecommendations,
+      resultSkills,
+      resultProjects
+    ] = await Promise.all([
+      axios.get(serverUrl + "recommendations"),
+      axios.get(serverUrl + "skills"),
+      axios.get(serverUrl + "projects")
+    ]);
+
     this.setState({
-      projects: resultProjects.data.payload,
+      recommendations: resultRecommendations.data.payload,
       skills: resultSkills.data.payload,
-      recommendations: resultRecommendations.data.payload
+      projects: resultProjects.data.payload
     });
   }
 

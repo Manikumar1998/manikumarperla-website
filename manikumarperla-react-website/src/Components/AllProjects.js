@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Consumer } from "../context";
 import ProjectCard from "./ProjectCard";
-import axios from "axios";
 
 class AllProjects extends Component {
   render() {

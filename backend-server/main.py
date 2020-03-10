@@ -71,9 +71,9 @@ def get_projects():
         cursor = db_connection.cursor()
 
 
-@app.route("/project", methods=["POST"])
+@app.route("/project", methods=["GET"])
 def get_project_from_id():
-    id = request.json["id"]
+    id = request.args.get("id")
     get_project_from_id_cmd = f"SELECT * from projects WHERE id='{id}';"
     try:
         cursor = db_connection.cursor()

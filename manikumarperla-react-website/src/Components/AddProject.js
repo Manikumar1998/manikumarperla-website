@@ -23,7 +23,7 @@ class AddProject extends Component {
 
   onSubmit = async (serverUrl, event) => {
     event.preventDefault();
-    const res = await axios.post(serverUrl + "projects/add", {
+    await axios.post(serverUrl + "projects/add", {
       id: uuid(),
       ...this.state
     });

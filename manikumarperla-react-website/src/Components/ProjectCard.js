@@ -17,13 +17,9 @@ class ProjectCard extends Component {
           style={{ backgroundColor: "white" }}
         >
           <h4 className="card-title">{title} </h4>
-
           <p className="card-text">
             {excerpt}
-            <Link
-              to={`/project/${id}`}
-              className="text-dark stretched-link"
-            ></Link>
+            <Link to={`/project/${id}`} className="stretched-link"></Link>
           </p>
         </div>
       </div>

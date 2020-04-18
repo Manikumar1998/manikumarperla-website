@@ -10,11 +10,11 @@ class Recommendation extends Component {
     company: "",
     designation: "",
     recommendationMessage: "",
-    submitStatus: "",
-    submitMessage: ""
+    textColor: "",
+    serverMessage: "",
   };
 
-  onChange = event =>
+  onChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
 
   onSubmit = async (action, handler, serverUrl, event) => {
@@ -24,7 +24,7 @@ class Recommendation extends Component {
       email,
       company,
       designation,
-      recommendationMessage
+      recommendationMessage,
     } = this.state;
     const newItem = {
       id: uuid(),
@@ -32,33 +32,30 @@ class Recommendation extends Component {
       email,
       company,
       designation,
-      recommendationMessage
+      recommendationMessage,
     };
 
     const res = await axios.post(serverUrl + "recommendations/add", newItem);
     const isSuccessful = res.data.successful;
-    const serverMessage = res.data.message;
 
     handler(action, newItem);
     // Show submit message
     if (isSuccessful) {
       this.setState({
-        submitStatus: "text-info",
-        submitMessage: serverMessage
+        textColor: "text-info",
+        serverMessage: res.data.message,
+        name: "",
+        email: "",
+        company: "",
+        designation: "",
+        recommendationMessage: "",
       });
     } else {
       this.setState({
-        submitStatus: "text-danger",
-        submitMessage: serverMessage
+        textColor: "text-danger",
+        serverMessage: res.data.message,
       });
     }
-    this.setState({
-      name: "",
-      email: "",
-      company: "",
-      designation: "",
-      recommendationMessage: ""
-    });
   };
 
   render() {
@@ -68,12 +65,12 @@ class Recommendation extends Component {
       company,
       designation,
       recommendationMessage,
-      submitStatus,
-      submitMessage
+      textColor,
+      serverMessage,
     } = this.state;
     return (
       <Consumer>
-        {value => {
+        {(value) => {
           const { dispatch, serverUrl } = value;
           return (
             <div className="container my-5 py-5">
@@ -154,10 +151,8 @@ class Recommendation extends Component {
                   </form>
                 </div>
               </div>
-              <div className="row justify-content-center py-5 mx-2">
-                <h5 className="font-weight-black text-center">
-                  <span className={submitStatus}>{submitMessage}</span>
-                </h5>
+              <div className="py-5 mx-2 text-center">
+                <h5 className={textColor}>{serverMessage}</h5>
               </div>
             </div>
           );

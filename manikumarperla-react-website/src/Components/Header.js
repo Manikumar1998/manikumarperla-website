@@ -6,41 +6,36 @@ class Header extends Component {
   render() {
     const { branding } = this.props;
     return (
-      <nav
-        className="navbar navbar-expand-sm fixed-top"
-        style={{ backgroundColor: "white" }}
-      >
+      <nav className="navbar navbar-expand-sm fixed-top bg-white">
         <div className="container my-2">
           <Link className="navbar-brand text-dark font-weight-bold" to="/">
             {branding}
           </Link>
-          <Link to="/contact" className="ml-auto mr-1">
-            <button type="button" className="btn btn-outline-info ">
+          {/* Bring ml-auto to Link below */}
+          <Link to="/contact" className="ml-auto">
+            <button type="button" className="btn btn-outline-info">
               Contact Me
             </button>
           </Link>
           <button
             className="navbar-toggler"
-            type="button"
             data-toggle="collapse"
-            data-target="#collapsibleNavbar"
+            data-target="#collapseNav"
           >
             <span className="fas fa-bars text-dark"></span>
           </button>
           <div
             className="collapse navbar-collapse flex-grow-0"
-            id="collapsibleNavbar"
+            id="collapseNav"
           >
-            <ul className="navbar-nav">
-              <li className="nav-item mx-4">
-                <Link
-                  className="nav-link text-dark h6 my-auto"
-                  to="/project/all"
-                >
-                  Projects
-                </Link>
-              </li>
-            </ul>
+            <div className="navbar-nav">
+              <Link
+                className="nav-item nav-link text-dark h6 mx-3 my-auto"
+                to="/project/all"
+              >
+                Projects
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
@@ -49,11 +44,11 @@ class Header extends Component {
 }
 
 Header.defaultProps = {
-  branding: "Manikumar Perla"
+  branding: "Manikumar Perla",
 };
 
 Header.propTypes = {
-  branding: PropTypes.string.isRequired
+  branding: PropTypes.string.isRequired,
 };
 
 export default Header;

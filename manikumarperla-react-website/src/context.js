@@ -9,7 +9,7 @@ const reducer = (state, action, value) => {
       console.log(value);
       return {
         ...state,
-        recommendations: [value, ...state.recommendations]
+        recommendations: [value, ...state.recommendations],
       };
     default:
       console.log("default");
@@ -20,13 +20,14 @@ const reducer = (state, action, value) => {
 export class Provider extends Component {
   state = {
     dispatch: (action, payload) => {
-      this.setState(state => reducer(state, action, payload));
+      this.setState((state) => reducer(state, action, payload));
     },
 
     projects: [],
+    blogs: [],
     skills: [],
     recommendations: [],
-    serverUrl: "http://localhost:5000/"
+    serverUrl: "http://localhost:5000/",
   };
 
   async componentDidMount() {
@@ -34,17 +35,20 @@ export class Provider extends Component {
     const [
       resultRecommendations,
       resultSkills,
-      resultProjects
+      resultProjects,
+      resultBlogs,
     ] = await Promise.all([
       axios.get(serverUrl + "recommendations"),
       axios.get(serverUrl + "skills"),
-      axios.get(serverUrl + "projects")
+      axios.get(serverUrl + "projects"),
+      axios.get(serverUrl + "blogs"),
     ]);
 
     this.setState({
       recommendations: resultRecommendations.data.payload,
       skills: resultSkills.data.payload,
-      projects: resultProjects.data.payload
+      projects: resultProjects.data.payload,
+      blogs: resultBlogs.data.payload,
     });
   }
 

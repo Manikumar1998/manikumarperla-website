@@ -4,6 +4,7 @@ import SkillStack from "./SkillStack";
 import ProjectSection from "./ProjectSection";
 import About from "./About";
 import RecommendationStack from "./RecommendationStack";
+import BlogSection from "./BlogSection";
 
 function HomePage() {
   return (
@@ -13,6 +14,7 @@ function HomePage() {
       <SkillStack />
       <ProjectSection />
       <About />
+      <BlogSection />
     </div>
   );
 }

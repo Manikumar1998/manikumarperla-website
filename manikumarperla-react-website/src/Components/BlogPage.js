@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Consumer } from "../context";
 
-class ProjectPage extends Component {
+class BlogPage extends Component {
   state = {
     id: "",
     imageUrl: "",
@@ -14,13 +14,13 @@ class ProjectPage extends Component {
   async componentDidMount() {
     const { serverUrl } = this.props;
     const { id } = this.props.match.params;
-    const res = await axios.get(serverUrl + `project?id=${id}`);
-    const project = res.data.payload;
+    const res = await axios.get(serverUrl + `blog?id=${id}`);
+    const blog = res.data.payload;
     this.setState({
-      imageUrl: project.imageUrl,
-      title: project.title,
-      excerpt: project.excerpt,
-      body: project.body,
+      imageUrl: blog.imageUrl,
+      title: blog.title,
+      excerpt: blog.excerpt,
+      body: blog.body,
     });
   }
 
@@ -47,7 +47,7 @@ class ProjectPage extends Component {
 export default React.forwardRef((props, refs) => (
   <Consumer>
     {(context) => (
-      <ProjectPage {...props} serverUrl={context.serverUrl} refs={refs} />
+      <BlogPage {...props} serverUrl={context.serverUrl} refs={refs} />
     )}
   </Consumer>
 ));

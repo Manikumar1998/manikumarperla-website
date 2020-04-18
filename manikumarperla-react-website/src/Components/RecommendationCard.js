@@ -6,13 +6,13 @@ class RecommendationCard extends Component {
       name,
       company,
       designation,
-      recommendationMessage
+      recommendationMessage,
     } = this.props.recommendation;
     return (
-      <div className="col-12 col-lg-4 col-md-4">
-        <div className="card text-center shadow h-100">
+      <div className="col-12 col-md-4">
+        <div className="card shadow h-100">
           <div className="card-body">
-            <p className="card-text h4">{recommendationMessage}</p>
+            <h4 className="card-text">{recommendationMessage}</h4>
             <p className="card-text text-secondary mb-0">{name}</p>
             <p className="card-text text-secondary">
               {designation} @ {company}

@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 import pymysql
+import logging
 from datetime import datetime
 
 db_connection = pymysql.connect(
@@ -9,6 +10,12 @@ db_connection = pymysql.connect(
 db_connection.autocommit(True)
 
 app = Flask(__name__)
+
+if __name__ != "__main__":
+    gunicorn_logger = logging.getLogger("gunicorn.error")
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
+
 CORS(app)
 
 
@@ -79,7 +86,7 @@ def get_project_from_id():
         cursor = db_connection.cursor()
         cursor.execute(get_project_from_id_cmd)
         projects = cursor.fetchall()
-        json_project = list(
+        json_projects = list(
             map(
                 lambda project: {
                     "id": project[0],
@@ -91,15 +98,15 @@ def get_project_from_id():
                 projects,
             )
         )
-        return {"successful": True, "payload": json_project[0]}
+        return {"successful": True, "payload": json_projects[0]}
     except:
         return {"successful": False, "payload": {}}
     finally:
         cursor.close()
 
 
-@app.route("/projects/add", methods=["POST"])
-def add_projects():
+@app.route("/project/add", methods=["POST"])
+def add_project():
     req = request.json
     id = req["id"]
     imageUrl = req["imageUrl"]
@@ -108,12 +115,12 @@ def add_projects():
     body = req["body"]
     last_modified = datetime.now()
 
-    add_projects_cmd = f"INSERT INTO projects values('{id}', \
+    add_project_cmd = f"INSERT INTO projects values('{id}', \
         '{imageUrl}', '{title}', '{excerpt}', '{body}', true, '{last_modified}');"
 
     try:
         cursor = db_connection.cursor()
-        cursor.execute(add_projects_cmd)
+        cursor.execute(add_project_cmd)
         return {
             "successful": True,
             "message": "Added project successfully",
@@ -122,6 +129,91 @@ def add_projects():
         return {
             "successful": False,
             "message": "Oops! Something went wrong. Couldn't add the project",
+        }
+    finally:
+        cursor.close()
+
+
+@app.route("/blogs", methods=["GET"])
+def get_blogs():
+    get_blogs_cmd = (
+        "SELECT * from blogs WHERE onShowcase=true ORDER BY last_modified desc;"
+    )
+    try:
+        cursor = db_connection.cursor()
+        cursor.execute(get_blogs_cmd)
+        blogs = cursor.fetchall()
+        json_blogs = list(
+            map(
+                lambda blog: {
+                    "id": blog[0],
+                    "imageUrl": blog[1],
+                    "title": blog[2],
+                    "excerpt": blog[3],
+                },
+                blogs,
+            )
+        )
+        return {"successful": True, "payload": json_blogs}
+    except:
+        return {"successful": False, "payload": {}}
+    finally:
+        cursor = db_connection.cursor()
+
+
+@app.route("/blog", methods=["GET"])
+def get_blog_from_id():
+    id = request.args.get("id")
+    get_blog_from_id_cmd = f"SELECT * from blogs WHERE id='{id}';"
+    try:
+        cursor = db_connection.cursor()
+        cursor.execute(get_blog_from_id_cmd)
+        blogs = cursor.fetchall()
+        json_blogs = list(
+            map(
+                lambda blog: {
+                    "id": blog[0],
+                    "imageUrl": blog[1],
+                    "title": blog[2],
+                    "excerpt": blog[3],
+                    "body": blog[4],
+                },
+                blogs,
+            )
+        )
+        return {"successful": True, "payload": json_blogs[0]}
+    except:
+        return {"successful": False, "payload": {}}
+    finally:
+        cursor.close()
+
+
+@app.route("/blog/add", methods=["POST"])
+def add_blog():
+    req = request.json
+    id = req["id"]
+    imageUrl = req["imageUrl"]
+    title = req["title"]
+    excerpt = req["excerpt"]
+    body = req["body"]
+    last_modified = datetime.now()
+
+    add_blog_cmd = f"INSERT INTO blogs values('{id}', \
+        '{imageUrl}', '{title}', '{excerpt}', '{body}', true, '{last_modified}');"
+
+    try:
+        print("came here1")
+        cursor = db_connection.cursor()
+        cursor.execute(add_blog_cmd)
+        return {
+            "successful": True,
+            "message": "Added Blog successfully",
+        }
+    except:
+        print("came here")
+        return {
+            "successful": False,
+            "message": "Oops! Something went wrong. Couldn't add the blog",
         }
     finally:
         cursor.close()

@@ -1,24 +1,18 @@
 import React, { Component } from "react";
 import { Consumer } from "../context";
 import RecommendationCard from "./RecommendationCard";
+import "../App.css";
 
 class RecommendationStack extends Component {
   render() {
-    const scrollingWrapperFlexBox = {
-      display: "flex",
-      flexWrap: "nowrap",
-      overflowX: "auto",
-      paddingBottom: "50px"
-    };
-
     return (
       <Consumer>
-        {value => {
+        {(value) => {
           const { recommendations } = value;
           return (
-            <div className="container-fluid">
-              <div className="row" style={scrollingWrapperFlexBox}>
-                {recommendations.map(recommendation => (
+            <div className="container-fluid my-5">
+              <div className="row text-center py-5 d-flex flex-nowrap overflow-auto scrollbar">
+                {recommendations.map((recommendation) => (
                   <RecommendationCard
                     key={recommendation.id}
                     recommendation={recommendation}

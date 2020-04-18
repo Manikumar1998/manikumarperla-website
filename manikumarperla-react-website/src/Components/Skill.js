@@ -18,7 +18,7 @@ class Skill extends Component {
     }
     const skillStyle = {
       width: "100px",
-      height: "100px"
+      height: "100px",
     };
 
     return (
@@ -29,7 +29,7 @@ class Skill extends Component {
           alt={name}
           style={skillStyle}
         />
-        <div className="justify-content-around">{rating}</div>
+        <div>{rating}</div>
       </div>
     );
   }

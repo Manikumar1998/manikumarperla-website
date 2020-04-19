@@ -6,13 +6,13 @@ class Header extends Component {
   render() {
     const { branding } = this.props;
     return (
-      <nav className="navbar navbar-expand-sm fixed-top bg-white">
+      <nav className="navbar navbar-expand-md fixed-top bg-white">
         <div className="container my-2">
           <Link className="navbar-brand text-dark font-weight-bold" to="/">
             {branding}
           </Link>
-          {/* Bring ml-auto to Link below */}
-          <Link to="/contact" className="ml-auto">
+          {/* Bring ml-auto to Link below. talk about mx-3*/}
+          <Link to="/contact" className="ml-auto mx-3">
             <button type="button" className="btn btn-outline-info">
               Contact Me
             </button>
@@ -29,11 +29,18 @@ class Header extends Component {
             id="collapseNav"
           >
             <div className="navbar-nav">
+              {/* Talk about mx-1 and Projects */}
               <Link
-                className="nav-item nav-link text-dark h6 mx-3 my-auto"
+                className="nav-item nav-link text-dark h6 my-auto mx-1"
                 to="/project/all"
               >
                 Projects
+              </Link>
+              <Link
+                className="nav-item nav-link text-dark h6 my-auto mx-1"
+                to="/blog/all"
+              >
+                Blogs
               </Link>
             </div>
           </div>

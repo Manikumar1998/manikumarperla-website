@@ -27,7 +27,7 @@ class BlogSection extends Component {
               <div className="my-5">
                 <Link to="/blog/all" className="text-dark text-right">
                   <h5>
-                    See my Blogs
+                    See my Blogs{" "}
                     <i className="fas fa-arrow-right align-middle"></i>
                   </h5>
                 </Link>

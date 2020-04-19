@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 import { Consumer } from "../context";
 
 class BlogPage extends Component {
@@ -36,7 +37,7 @@ class BlogPage extends Component {
             <h1 className="font-weight-light">{title}</h1>
           </div>
           <div className="text-justify">
-            <p style={{ whiteSpace: "pre-wrap" }}>{body}</p>
+            <ReactMarkdown source={body} />
           </div>
         </div>
       </div>

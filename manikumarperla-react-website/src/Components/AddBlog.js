@@ -61,8 +61,8 @@ class AddBlog extends Component {
               <h1 className="font-weight-light text-center">
                 Add <span className="text-info">Blog</span>
               </h1>
-              <div className="row px-5">
-                <div className="col-12 col-lg-6 px-5">
+              <div className="row px-lg-5">
+                <div className="col-12 col-lg-6 px-lg-5">
                   <form onSubmit={this.onSubmit.bind(this, serverUrl)}>
                     <div className="form-group">
                       <label htmlFor="name">Featured Image Url *</label>
@@ -118,7 +118,8 @@ class AddBlog extends Component {
                   </div>
                 </div>
 
-                <div className="col-12 col-lg-6 my-4">
+
+                <div className="col-12 col-lg-6 my-4 markdownRender">
                   <div className="justify-content-center">
                     <img src={imageUrl} alt={title} className="w-100" />
                   </div>

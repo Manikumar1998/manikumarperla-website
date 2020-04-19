@@ -22,6 +22,9 @@ function Footer() {
             <Link to="/" className="text-light d-block">
               Home
             </Link>
+            <Link to="/blog/all" className="text-light d-block">
+              Blogs
+            </Link>
             <Link to="/project/all" className="text-light d-block">
               Projects
             </Link>

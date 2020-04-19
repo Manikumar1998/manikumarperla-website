@@ -27,7 +27,7 @@ class ProjectSection extends Component {
               <div className="my-5">
                 <Link to="/project/all" className="text-dark text-right">
                   <h5>
-                    See my projects
+                    See my projects{" "}
                     <i className="fas fa-arrow-right align-middle"></i>
                   </h5>
                 </Link>

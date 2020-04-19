@@ -58,11 +58,11 @@ class AddProject extends Component {
           const { serverUrl } = value;
           return (
             <div className="container-fluid py-5 my-5">
-              <h1 className="font-weight-light text-center">
+              <h1 className="font-weight-light text-center my-5">
                 Add <span className="text-info">Project</span>
               </h1>
-              <div className="row px-5">
-                <div className="col-12 col-lg-6 px-5">
+              <div className="row px-lg-5 px-3">
+                <div className="col-12 col-lg-6 px-lg-5">
                   <form onSubmit={this.onSubmit.bind(this, serverUrl)}>
                     <div className="form-group">
                       <label htmlFor="name">Featured Image Url *</label>
@@ -118,9 +118,9 @@ class AddProject extends Component {
                   </div>
                 </div>
 
-                <div className="col-12 col-lg-6 my-4">
+                <div className="col-12 col-lg-6 my-4 markdownRender">
                   <div className="justify-content-center">
-                    <img src={imageUrl} alt={title} className="w-100" />
+                    <img src={imageUrl} alt={title} />
                   </div>
                   <div className="text-center my-5">
                     <h1 className="font-weight-light">{title}</h1>

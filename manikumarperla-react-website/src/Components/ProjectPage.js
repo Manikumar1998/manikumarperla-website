@@ -18,6 +18,7 @@ class ProjectPage extends Component {
     const res = await axios.get(serverUrl + `project?id=${id}`);
     const project = res.data.payload;
     this.setState({
+      id: project.id,
       imageUrl: project.imageUrl,
       title: project.title,
       excerpt: project.excerpt,

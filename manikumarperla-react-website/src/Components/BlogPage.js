@@ -18,6 +18,7 @@ class BlogPage extends Component {
     const res = await axios.get(serverUrl + `blog?id=${id}`);
     const blog = res.data.payload;
     this.setState({
+      id: blog.id,
       imageUrl: blog.imageUrl,
       title: blog.title,
       excerpt: blog.excerpt,

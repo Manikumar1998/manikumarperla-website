@@ -3,7 +3,7 @@ import { Consumer } from "../context";
 import axios from "axios";
 import uuid from "uuid";
 
-class Recommendation extends Component {
+class WriteRecommendation extends Component {
   state = {
     name: "",
     email: "",
@@ -162,4 +162,4 @@ class Recommendation extends Component {
   }
 }
 
-export default Recommendation;
+export default WriteRecommendation;

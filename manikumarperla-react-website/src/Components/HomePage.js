@@ -8,7 +8,7 @@ import BlogSection from "./BlogSection";
 
 function HomePage() {
   return (
-    <div className="HomePage">
+    <div>
       <Title />
       <RecommendationStack />
       <SkillStack />

@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Header from "./Components/Header";
+import NavBar from "./Components/NavBar";
 import Footer from "./Components/Footer";
 import ContactPage from "./Components/ContactPage";
 import HomePage from "./Components/HomePage";
 import ProjectPage from "./Components/ProjectPage";
 import AddProject from "./Components/AddProject";
-import Recommendation from "./Components/Recommendation";
+import WriteRecommendation from "./Components/WriteRecommendation";
 import Notfound from "./Components/Notfound";
 import { Provider } from "./context";
 import EditSkill from "./Components/EditSkill";
@@ -22,7 +22,7 @@ function App() {
       <Router>
         <ScrollToTop />
         <div className="App">
-          <Header branding="Manikumar Perla" />
+          <NavBar branding="Manikumar Perla" />
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/contact" component={ContactPage} />
@@ -35,7 +35,7 @@ function App() {
             <Route
               exact
               path="/write-a-recommendation/"
-              component={Recommendation}
+              component={WriteRecommendation}
             />
             <Route exact path="/skill/update/:id" component={EditSkill} />
             <Route component={Notfound} />

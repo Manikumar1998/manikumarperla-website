@@ -63,7 +63,10 @@ class AddProject extends Component {
               </h1>
               <div className="row px-lg-5 px-3">
                 <div className="col-12 col-lg-6 px-lg-5">
-                  <form onSubmit={this.onSubmit.bind(this, serverUrl)}>
+                  <form
+                    autoComplete={"off"}
+                    onSubmit={this.onSubmit.bind(this, serverUrl)}
+                  >
                     <div className="form-group">
                       <label htmlFor="name">Featured Image Url *</label>
                       <input

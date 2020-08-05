@@ -6,13 +6,13 @@ class ContactPage extends Component {
     email: "",
     description: "",
     submitStatus: "",
-    submitMessage: ""
+    submitMessage: "",
   };
 
-  onChange = event =>
+  onChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
 
-  onSubmit = event => {
+  onSubmit = (event) => {
     event.preventDefault();
 
     // Send a post request
@@ -25,7 +25,7 @@ class ContactPage extends Component {
         submitMessage: `Hey ${this.state.name}. I've received your message. Can't wait to work with you! :)`,
         name: "",
         email: "",
-        description: ""
+        description: "",
       });
     } else {
       this.setState({
@@ -33,7 +33,7 @@ class ContactPage extends Component {
         email: "",
         description: "",
         submitStatus: "text-danger",
-        submitMessage: "Oops! Something went wrong :("
+        submitMessage: "Oops! Something went wrong :(",
       });
     }
   };
@@ -44,7 +44,7 @@ class ContactPage extends Component {
       email,
       description,
       submitStatus,
-      submitMessage
+      submitMessage,
     } = this.state;
     return (
       <div className="container my-5 py-5">
@@ -99,7 +99,7 @@ class ContactPage extends Component {
           </div>
         </div>
         <div className="row justify-content-center py-5 mx-2">
-          <h5 className="font-weight-black text-center">
+          <h5 className="text-center">
             <span className={submitStatus}>{submitMessage}</span>
           </h5>
         </div>

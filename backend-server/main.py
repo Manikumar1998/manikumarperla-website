@@ -1,284 +1,244 @@
-from flask import Flask, request
+from flask import Flask, request, g
 from flask_cors import CORS
 import pymysql
 import logging
-from datetime import datetime
-
-db_connection = pymysql.connect(
-    host="localhost", user="root", password="", db="portfolio"
-)
-db_connection.autocommit(True)
+import datetime
 
 app = Flask(__name__)
+CORS(app)
+
+
+def connect_db():
+    return pymysql.connect(
+        host="localhost", user="root", db="portfolio", autocommit=True
+    )
+
+
+@app.before_request
+def before_request():
+    g.db = connect_db()
+    g.cursor = g.db.cursor()
+
+
+@app.teardown_request
+def teardown_request(exception):
+    if hasattr(g, "db"):
+        g.db.close()
+    if hasattr(g, "cursor"):
+        g.cursor.close()
+
+
+@app.route("/api/recommendations", methods=["GET"])
+def getRecommendations():
+    try:
+        # SQL command
+        cmd = "SELECT * FROM recommendations WHERE onShowcase=true;"
+
+        # Execute the SQL command
+        g.cursor.execute(cmd)
+
+        # Get the data
+        recommendations = g.cursor.fetchall()
+
+        # Data processing
+        final_recommendations = []
+        for recommendation in recommendations:
+            recommendation_dict = {
+                "id": recommendation[0],
+                "name": recommendation[1],
+                "company": recommendation[3],
+                "designation": recommendation[4],
+                "recommendationMessage": recommendation[5],
+            }
+            final_recommendations.append(recommendation_dict)
+
+        # Return the data
+        return {"isSuccessful": True, "payload": final_recommendations}
+    except:
+        return {"isSuccessful": False, "payload": []}
+
+
+@app.route("/api/skills", methods=["GET"])
+def getSkills():
+    try:
+        cmd = "SELECT * FROM skills;"
+        cursor = g.db.cursor()
+        cursor.execute(cmd)
+        skills = cursor.fetchall()
+        final_skills = []
+        for skill in skills:
+            skill_dict = {
+                "id": skill[0],
+                "imageUrl": skill[1],
+                "name": skill[2],
+                "starsTotal": skill[3],
+                "starsActive": skill[4],
+            }
+            final_skills.append(skill_dict)
+        return {"isSuccessful": True, "payload": final_skills}
+    except:
+        return {"isSuccessful": False, "payload": []}
+
+
+@app.route("/api/projects", methods=["GET"])
+def getProjects():
+    # try:
+    cmd = "SELECT id, imageUrl, title, excerpt FROM projects WHERE onShowcase=true ORDER BY last_modified DESC;"
+    cursor = g.db.cursor()
+    cursor.execute(cmd)
+    projects = cursor.fetchall()
+    final_projects = []
+    for project in projects:
+        project_dict = {
+            "id": project[0],
+            "imageUrl": project[1],
+            "title": project[2],
+            "excerpt": project[3],
+        }
+        final_projects.append(project_dict)
+    return {"isSuccessful": True, "payload": final_projects}
+
+
+# except:
+#     return {"isSuccessful": False, "payload": []}
+
+
+@app.route("/api/blogs", methods=["GET"])
+def getBlogs():
+    # try:
+    cmd = "SELECT id, imageUrl, title, excerpt FROM blogs WHERE onShowcase=true ORDER BY last_modified DESC;"
+    cursor = g.db.cursor()
+    cursor.execute(cmd)
+    blogs = cursor.fetchall()
+    final_blogs = []
+    for blog in blogs:
+        blog_dict = {
+            "id": blog[0],
+            "imageUrl": blog[1],
+            "title": blog[2],
+            "excerpt": blog[3],
+        }
+        final_blogs.append(blog_dict)
+    return {"isSuccessful": True, "payload": final_blogs}
+
+
+# except:
+#     return {"isSuccessful": False, "payload": []}
+
+
+@app.route("/api/blog/add", methods=["POST"])
+def addBlog():
+    try:
+        blog = request.json
+        id = blog["id"]
+        imageUrl = blog["imageUrl"]
+        title = blog["title"]
+        excerpt = blog["excerpt"]
+        body = blog["body"]
+        curr_datetime = datetime.datetime.now()
+        cmd = f"INSERT INTO blogs VALUES(%s, %s, %s, %s, %s, true, %s);"
+        cursor = g.db.cursor()
+        cursor.execute(cmd, (id, imageUrl, title, excerpt, body, curr_datetime))
+        return {"isSuccessful": True}
+    except:
+        return {"isSuccessful": False}
+    finally:
+        cursor.close()
+
+
+@app.route("/api/project/add", methods=["POST"])
+def addProject():
+    try:
+        project = request.json
+        id = project["id"]
+        imageUrl = project["imageUrl"]
+        title = project["title"]
+        excerpt = project["excerpt"]
+        body = project["body"]
+        curr_datetime = datetime.datetime.now()
+        cmd = f"INSERT INTO projects VALUES(%s, %s, %s, %s, %s, true, %s);"
+        cursor = g.db.cursor()
+        cursor.execute(cmd, (id, imageUrl, title, excerpt, body, curr_datetime))
+        return {"isSuccessful": True}
+    except:
+        return {"isSuccessful": False}
+    finally:
+        cursor.close()
+
+
+@app.route("/api/recommendation/add", methods=["POST"])
+def addRecommendation():
+    try:
+        recommendation = request.json
+        id = recommendation["id"]
+        name = recommendation["name"]
+        email = recommendation["email"]
+        company = recommendation["company"]
+        designation = recommendation["designation"]
+        recommendationMessage = recommendation["message"]
+        cmd = f"INSERT INTO recommendations VALUES(%s, %s, %s, %s, %s, %s, false);"
+        cursor = g.db.cursor()
+        cursor.execute(
+            cmd, (id, name, email, company, designation, recommendationMessage)
+        )
+        return {"isSuccessful": True}
+    except:
+        return {"isSuccessful": False}
+    finally:
+        cursor.close()
+
+
+@app.route("/api/contact/add", methods=["POST"])
+def addContact():
+    try:
+        contact = request.json
+        name = contact["name"]
+        email = contact["email"]
+        description = contact["description"]
+        curr_datetime = datetime.datetime.now()
+        cmd = f"INSERT INTO contact VALUES(%s, %s, %s, %s);"
+        cursor = g.db.cursor()
+        cursor.execute(cmd, (name, email, description, curr_datetime))
+        return {"isSuccessful": True}
+    except:
+        return {"isSuccessful": False}
+    finally:
+        cursor.close()
+
+
+@app.route("/api/blog", methods=["GET"])
+def getBlog():
+    try:
+        id = request.args.get("id")
+        cmd = f"SELECT title, imageUrl, body FROM blogs WHERE id=%s;"
+        cursor = g.db.cursor()
+        cursor.execute(cmd, (id))
+        blog = cursor.fetchone()
+        blog_dict = {"title": blog[0], "imageUrl": blog[1], "body": blog[2]}
+        return {"isSuccessful": True, "payload": blog_dict}
+    except:
+        return {"isSuccessful": False, "payload": {}}
+    finally:
+        cursor.close()
+
+
+@app.route("/api/project", methods=["GET"])
+def getProject():
+    try:
+        id = request.args.get("id")
+        cmd = f"SELECT title, imageUrl, body FROM projects WHERE id=%s;"
+        cursor = g.db.cursor()
+        cursor.execute(cmd, (id))
+        project = cursor.fetchone()
+        project_dict = {"title": project[0], "imageUrl": project[1], "body": project[2]}
+        return {"isSuccessful": True, "payload": project_dict}
+    except:
+        return {"isSuccessful": False, "payload": {}}
+    finally:
+        cursor.close()
+
 
 if __name__ != "__main__":
     gunicorn_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
-
-CORS(app)
-
-
-@app.route("/", methods=["GET"])
-def home():
-    return "HelloWorld"
-
-
-@app.route("/skills", methods=["GET"])
-def get_skills():
-    get_skills_cmd = "SELECT * from skills;"
-    try:
-        cursor = db_connection.cursor()
-        cursor.execute(get_skills_cmd)
-        skills = cursor.fetchall()
-        json_skills = list(
-            map(
-                lambda skill: {
-                    "id": skill[0],
-                    "imageUrl": skill[1],
-                    "name": skill[2],
-                    "starsTotal": skill[3],
-                    "starsActive": skill[4],
-                },
-                skills,
-            )
-        )
-        cursor.close()
-        return {"successful": True, "payload": json_skills}
-    except:
-        return {"successful": False, "payload": {}}
-    finally:
-        cursor.close()
-
-
-@app.route("/projects", methods=["GET"])
-def get_projects():
-    get_projects_cmd = (
-        "SELECT * from projects WHERE onShowcase=true ORDER BY last_modified desc;"
-    )
-    try:
-        cursor = db_connection.cursor()
-        cursor.execute(get_projects_cmd)
-        projects = cursor.fetchall()
-        json_projects = list(
-            map(
-                lambda project: {
-                    "id": project[0],
-                    "imageUrl": project[1],
-                    "title": project[2],
-                    "excerpt": project[3],
-                },
-                projects,
-            )
-        )
-        return {"successful": True, "payload": json_projects}
-    except:
-        return {"successful": False, "payload": {}}
-    finally:
-        cursor = db_connection.cursor()
-
-
-@app.route("/project", methods=["GET"])
-def get_project_from_id():
-    id = request.args.get("id")
-    get_project_from_id_cmd = f"SELECT * from projects WHERE id='{id}';"
-    try:
-        cursor = db_connection.cursor()
-        cursor.execute(get_project_from_id_cmd)
-        projects = cursor.fetchall()
-        json_projects = list(
-            map(
-                lambda project: {
-                    "id": project[0],
-                    "imageUrl": project[1],
-                    "title": project[2],
-                    "excerpt": project[3],
-                    "body": project[4],
-                },
-                projects,
-            )
-        )
-        return {"successful": True, "payload": json_projects[0]}
-    except:
-        return {"successful": False, "payload": {}}
-    finally:
-        cursor.close()
-
-
-@app.route("/project/add", methods=["POST"])
-def add_project():
-    req = request.json
-    id = req["id"]
-    imageUrl = req["imageUrl"]
-    title = req["title"]
-    excerpt = req["excerpt"]
-    body = req["body"]
-    last_modified = datetime.now()
-
-    add_project_cmd = f"INSERT INTO projects values('{id}', \
-        '{imageUrl}', '{title}', '{excerpt}', '{body}', true, '{last_modified}');"
-
-    try:
-        cursor = db_connection.cursor()
-        cursor.execute(add_project_cmd)
-        return {
-            "successful": True,
-            "message": "Added project successfully",
-        }
-    except:
-        return {
-            "successful": False,
-            "message": "Oops! Something went wrong. Couldn't add the project",
-        }
-    finally:
-        cursor.close()
-
-
-@app.route("/blogs", methods=["GET"])
-def get_blogs():
-    get_blogs_cmd = (
-        "SELECT * from blogs WHERE onShowcase=true ORDER BY last_modified desc;"
-    )
-    try:
-        cursor = db_connection.cursor()
-        cursor.execute(get_blogs_cmd)
-        blogs = cursor.fetchall()
-        json_blogs = list(
-            map(
-                lambda blog: {
-                    "id": blog[0],
-                    "imageUrl": blog[1],
-                    "title": blog[2],
-                    "excerpt": blog[3],
-                },
-                blogs,
-            )
-        )
-        return {"successful": True, "payload": json_blogs}
-    except:
-        return {"successful": False, "payload": {}}
-    finally:
-        cursor = db_connection.cursor()
-
-
-@app.route("/blog", methods=["GET"])
-def get_blog_from_id():
-    id = request.args.get("id")
-    get_blog_from_id_cmd = f"SELECT * from blogs WHERE id='{id}';"
-    try:
-        cursor = db_connection.cursor()
-        cursor.execute(get_blog_from_id_cmd)
-        blogs = cursor.fetchall()
-        json_blogs = list(
-            map(
-                lambda blog: {
-                    "id": blog[0],
-                    "imageUrl": blog[1],
-                    "title": blog[2],
-                    "excerpt": blog[3],
-                    "body": blog[4],
-                },
-                blogs,
-            )
-        )
-        return {"successful": True, "payload": json_blogs[0]}
-    except:
-        return {"successful": False, "payload": {}}
-    finally:
-        cursor.close()
-
-
-@app.route("/blog/add", methods=["POST"])
-def add_blog():
-    req = request.json
-    id = req["id"]
-    imageUrl = req["imageUrl"]
-    title = req["title"]
-    excerpt = req["excerpt"]
-    body = req["body"]
-    last_modified = datetime.now()
-
-    add_blog_cmd = f"INSERT INTO blogs values('{id}', \
-        '{imageUrl}', '{title}', '{excerpt}', '{body}', true, '{last_modified}');"
-
-    try:
-        print("came here1")
-        cursor = db_connection.cursor()
-        cursor.execute(add_blog_cmd)
-        return {
-            "successful": True,
-            "message": "Added Blog successfully",
-        }
-    except:
-        print("came here")
-        return {
-            "successful": False,
-            "message": "Oops! Something went wrong. Couldn't add the blog",
-        }
-    finally:
-        cursor.close()
-
-
-@app.route("/recommendations", methods=["GET"])
-def get_recommendations():
-    get_recommendations_cmd = "SELECT * from recommendations WHERE onShowcase=true;"
-    try:
-        cursor = db_connection.cursor()
-        cursor.execute(get_recommendations_cmd)
-        recommendations = cursor.fetchall()
-        json_recommendations = list(
-            map(
-                lambda recommendation: {
-                    "id": recommendation[0],
-                    "name": recommendation[1],
-                    "email": recommendation[2],
-                    "company": recommendation[3],
-                    "designation": recommendation[4],
-                    "recommendationMessage": recommendation[5],
-                },
-                recommendations,
-            )
-        )
-        return {"successful": True, "payload": json_recommendations}
-    except:
-        return {"successful": False, "payload": {}}
-    finally:
-        cursor.close()
-
-
-@app.route("/recommendations/add", methods=["POST"])
-def add_recommendations():
-    req = request.json
-    id = req["id"]
-    name = req["name"]
-    email = req["email"]
-    company = req["company"]
-    designation = req["designation"]
-    recommendationMessage = req["recommendationMessage"]
-
-    add_recommendations_cmd = f"INSERT INTO recommendations values('{id}', \
-        '{name}', '{email}', '{company}', '{designation}', '{recommendationMessage}', true);"
-
-    try:
-        cursor = db_connection.cursor()
-        cursor.execute(add_recommendations_cmd)
-        return {
-            "successful": True,
-            "message": f"Hey {name}. Thank you so much for your message. I really appreciate it ♥",
-        }
-    except:
-        return {
-            "successful": False,
-            "message": "Oops! Something went wrong. Couldn't send the message! :(",
-        }
-    finally:
-        cursor.close()
-
-
-@app.route("/client", methods=["POST"])
-def new_client():
-    return "Message received!"
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

@@ -75,6 +75,7 @@ class AddProject extends Component {
                         className="form-control"
                         value={imageUrl}
                         onChange={this.onChange}
+                        required
                       />
                     </div>
                     <div className="form-group">
@@ -85,6 +86,7 @@ class AddProject extends Component {
                         className="form-control"
                         value={title}
                         onChange={this.onChange}
+                        required
                       />
                     </div>
                     <div className="form-group">
@@ -95,17 +97,13 @@ class AddProject extends Component {
                         className="form-control"
                         value={excerpt}
                         onChange={this.onChange}
+                        required
                       />
                     </div>
                     <SimpleMDE
                       onChange={this.handleChange}
                       options={{
-                        hideIcons: [
-                          "preview",
-                          "side-by-side",
-                          "fullscreen",
-                          "|",
-                        ],
+                        hideIcons: ["preview", "side-by-side", "fullscreen"],
                       }}
                     />
                     <button

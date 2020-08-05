@@ -22,12 +22,11 @@ export class Provider extends Component {
     dispatch: (action, payload) => {
       this.setState((state) => reducer(state, action, payload));
     },
-
     projects: [],
     blogs: [],
     skills: [],
     recommendations: [],
-    serverUrl: "http://localhost:5000/",
+    serverUrl: "http://localhost:5000/api/",
   };
 
   async componentDidMount() {

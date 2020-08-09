@@ -1,4 +1,7 @@
 **/.DS_Store
 
 # python
-backend/__pycache__/*
+backend/__pycache__/
+
+# vscode
+.vscode/

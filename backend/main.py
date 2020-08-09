@@ -1,11 +1,21 @@
 from flask import Flask, request, g
-from flask_cors import CORS
 import pymysql
-import logging
 import datetime
+import logging
+import os
 
 app = Flask(__name__)
-CORS(app)
+logging.basicConfig(filename="portfolio_logs.log")
+
+if os.environ["ENV"] == "dev":
+    from flask_cors import CORS
+
+    CORS(app)
+
+    if __name__ != "__main__":
+        gunicorn_logger = logging.getLogger("gunicorn.error")
+        app.logger.handlers = gunicorn_logger.handlers
+        app.logger.setLevel(gunicorn_logger.level)
 
 
 def connect_db():
@@ -26,6 +36,19 @@ def teardown_request(exception):
         g.db.close()
     if hasattr(g, "cursor"):
         g.cursor.close()
+
+
+@app.route("/api/login", methods=["POST"])
+def login():
+    try:
+        cred = request.json
+        if cred["ID"] == os.environ["ID"] and cred["PASS"] == os.environ["PASS"]:
+            return {"isSuccessful": True}
+        logging.warning("Authentication: Invalid ID and PASS")
+        return {"isSuccessful": False}
+    except Exception as e:
+        logging.warning("Authentication: ID PASS exception", e)
+        return {"isSuccessful": False}
 
 
 @app.route("/api/recommendations", methods=["GET"])
@@ -82,48 +105,44 @@ def getSkills():
 
 @app.route("/api/projects", methods=["GET"])
 def getProjects():
-    # try:
-    cmd = "SELECT id, imageUrl, title, excerpt FROM projects WHERE onShowcase=true ORDER BY last_modified DESC;"
-    cursor = g.db.cursor()
-    cursor.execute(cmd)
-    projects = cursor.fetchall()
-    final_projects = []
-    for project in projects:
-        project_dict = {
-            "id": project[0],
-            "imageUrl": project[1],
-            "title": project[2],
-            "excerpt": project[3],
-        }
-        final_projects.append(project_dict)
-    return {"isSuccessful": True, "payload": final_projects}
-
-
-# except:
-#     return {"isSuccessful": False, "payload": []}
+    try:
+        cmd = "SELECT id, imageUrl, title, excerpt FROM projects WHERE onShowcase=true ORDER BY last_modified DESC;"
+        cursor = g.db.cursor()
+        cursor.execute(cmd)
+        projects = cursor.fetchall()
+        final_projects = []
+        for project in projects:
+            project_dict = {
+                "id": project[0],
+                "imageUrl": project[1],
+                "title": project[2],
+                "excerpt": project[3],
+            }
+            final_projects.append(project_dict)
+        return {"isSuccessful": True, "payload": final_projects}
+    except:
+        return {"isSuccessful": False, "payload": []}
 
 
 @app.route("/api/blogs", methods=["GET"])
 def getBlogs():
-    # try:
-    cmd = "SELECT id, imageUrl, title, excerpt FROM blogs WHERE onShowcase=true ORDER BY last_modified DESC;"
-    cursor = g.db.cursor()
-    cursor.execute(cmd)
-    blogs = cursor.fetchall()
-    final_blogs = []
-    for blog in blogs:
-        blog_dict = {
-            "id": blog[0],
-            "imageUrl": blog[1],
-            "title": blog[2],
-            "excerpt": blog[3],
-        }
-        final_blogs.append(blog_dict)
-    return {"isSuccessful": True, "payload": final_blogs}
-
-
-# except:
-#     return {"isSuccessful": False, "payload": []}
+    try:
+        cmd = "SELECT id, imageUrl, title, excerpt FROM blogs WHERE onShowcase=true ORDER BY last_modified DESC;"
+        cursor = g.db.cursor()
+        cursor.execute(cmd)
+        blogs = cursor.fetchall()
+        final_blogs = []
+        for blog in blogs:
+            blog_dict = {
+                "id": blog[0],
+                "imageUrl": blog[1],
+                "title": blog[2],
+                "excerpt": blog[3],
+            }
+            final_blogs.append(blog_dict)
+        return {"isSuccessful": True, "payload": final_blogs}
+    except:
+        return {"isSuccessful": False, "payload": []}
 
 
 @app.route("/api/blog/add", methods=["POST"])
@@ -142,8 +161,6 @@ def addBlog():
         return {"isSuccessful": True}
     except:
         return {"isSuccessful": False}
-    finally:
-        cursor.close()
 
 
 @app.route("/api/project/add", methods=["POST"])
@@ -162,8 +179,6 @@ def addProject():
         return {"isSuccessful": True}
     except:
         return {"isSuccessful": False}
-    finally:
-        cursor.close()
 
 
 @app.route("/api/recommendation/add", methods=["POST"])
@@ -175,7 +190,7 @@ def addRecommendation():
         email = recommendation["email"]
         company = recommendation["company"]
         designation = recommendation["designation"]
-        recommendationMessage = recommendation["message"]
+        recommendationMessage = recommendation["recommendationMessage"]
         cmd = f"INSERT INTO recommendations VALUES(%s, %s, %s, %s, %s, %s, false);"
         cursor = g.db.cursor()
         cursor.execute(
@@ -184,8 +199,6 @@ def addRecommendation():
         return {"isSuccessful": True}
     except:
         return {"isSuccessful": False}
-    finally:
-        cursor.close()
 
 
 @app.route("/api/contact/add", methods=["POST"])
@@ -202,8 +215,6 @@ def addContact():
         return {"isSuccessful": True}
     except:
         return {"isSuccessful": False}
-    finally:
-        cursor.close()
 
 
 @app.route("/api/blog", methods=["GET"])
@@ -218,8 +229,6 @@ def getBlog():
         return {"isSuccessful": True, "payload": blog_dict}
     except:
         return {"isSuccessful": False, "payload": {}}
-    finally:
-        cursor.close()
 
 
 @app.route("/api/project", methods=["GET"])
@@ -234,11 +243,4 @@ def getProject():
         return {"isSuccessful": True, "payload": project_dict}
     except:
         return {"isSuccessful": False, "payload": {}}
-    finally:
-        cursor.close()
 
-
-if __name__ != "__main__":
-    gunicorn_logger = logging.getLogger("gunicorn.error")
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)

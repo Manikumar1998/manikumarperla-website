@@ -26,21 +26,18 @@ export class Provider extends Component {
     blogs: [],
     skills: [],
     recommendations: [],
-    serverUrl: "http://localhost:5000/api/",
   };
-
   async componentDidMount() {
-    const { serverUrl } = this.state;
     const [
       resultRecommendations,
       resultSkills,
       resultProjects,
       resultBlogs,
     ] = await Promise.all([
-      axios.get(serverUrl + "recommendations"),
-      axios.get(serverUrl + "skills"),
-      axios.get(serverUrl + "projects"),
-      axios.get(serverUrl + "blogs"),
+      axios.get(process.env.REACT_APP_SERVER + "/api/recommendations"),
+      axios.get(process.env.REACT_APP_SERVER + "/api/skills"),
+      axios.get(process.env.REACT_APP_SERVER + "/api/projects"),
+      axios.get(process.env.REACT_APP_SERVER + "/api/blogs"),
     ]);
 
     this.setState({

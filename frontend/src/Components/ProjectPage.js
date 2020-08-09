@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-import { Consumer } from "../context";
 
 class ProjectPage extends Component {
   state = {
@@ -13,9 +12,10 @@ class ProjectPage extends Component {
   };
 
   async componentDidMount() {
-    const { serverUrl } = this.props;
     const { id } = this.props.match.params;
-    const res = await axios.get(serverUrl + `project?id=${id}`);
+    const res = await axios.get(
+      process.env.REACT_APP_SERVER + `/api/project?id=${id}`
+    );
     const project = res.data.payload;
     this.setState({
       id: project.id,
@@ -46,10 +46,4 @@ class ProjectPage extends Component {
   }
 }
 
-export default React.forwardRef((props, refs) => (
-  <Consumer>
-    {(context) => (
-      <ProjectPage {...props} serverUrl={context.serverUrl} refs={refs} />
-    )}
-  </Consumer>
-));
+export default ProjectPage;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-import { Consumer } from "../context";
 
 class BlogPage extends Component {
   state = {
@@ -13,9 +12,10 @@ class BlogPage extends Component {
   };
 
   async componentDidMount() {
-    const { serverUrl } = this.props;
     const { id } = this.props.match.params;
-    const res = await axios.get(serverUrl + `blog?id=${id}`);
+    const res = await axios.get(
+      process.env.REACT_APP_SERVER + `/api/blog?id=${id}`
+    );
     const blog = res.data.payload;
     this.setState({
       id: blog.id,
@@ -46,10 +46,4 @@ class BlogPage extends Component {
   }
 }
 
-export default React.forwardRef((props, refs) => (
-  <Consumer>
-    {(context) => (
-      <BlogPage {...props} serverUrl={context.serverUrl} refs={refs} />
-    )}
-  </Consumer>
-));
+export default BlogPage;

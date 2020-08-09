@@ -17,7 +17,7 @@ class WriteRecommendation extends Component {
   onChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
 
-  onSubmit = async (action, handler, serverUrl, event) => {
+  onSubmit = async (action, handler, event) => {
     event.preventDefault();
     const {
       name,
@@ -35,15 +35,19 @@ class WriteRecommendation extends Component {
       recommendationMessage,
     };
 
-    const res = await axios.post(serverUrl + "recommendations/add", newItem);
-    const isSuccessful = res.data.successful;
+    const res = await axios.post(
+      process.env.REACT_APP_SERVER + "/api/recommendation/add",
+      newItem
+    );
+    const isSuccessful = res.data.isSuccessful;
 
     handler(action, newItem);
     // Show submit message
     if (isSuccessful) {
       this.setState({
         textColor: "text-info",
-        serverMessage: res.data.message,
+        serverMessage:
+          "Thank you so much for your recommendation. Much appreciated! ♥",
         name: "",
         email: "",
         company: "",
@@ -53,7 +57,8 @@ class WriteRecommendation extends Component {
     } else {
       this.setState({
         textColor: "text-danger",
-        serverMessage: res.data.message,
+        serverMessage:
+          "Oops! something went wrong. Couldn't save your recommendation. Don't worry, I notified Manikumar about this!",
       });
     }
   };
@@ -71,7 +76,7 @@ class WriteRecommendation extends Component {
     return (
       <Consumer>
         {(value) => {
-          const { dispatch, serverUrl } = value;
+          const { dispatch } = value;
           return (
             <div className="container my-5 py-5">
               <div className="row justify-content-center py-5">
@@ -86,8 +91,7 @@ class WriteRecommendation extends Component {
                     onSubmit={this.onSubmit.bind(
                       this,
                       "ADD_RECOMMENDATION",
-                      dispatch,
-                      serverUrl
+                      dispatch
                     )}
                   >
                     <div className="form-group">

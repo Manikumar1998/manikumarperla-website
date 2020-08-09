@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class ContactPage extends Component {
   state = {
@@ -12,11 +13,21 @@ class ContactPage extends Component {
   onChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
 
-  onSubmit = (event) => {
+  onSubmit = async (event) => {
     event.preventDefault();
 
+    const newItem = {
+      name: this.state.name,
+      email: this.state.email,
+      description: this.state.description,
+    };
+
     // Send a post request
-    let isSuccessful = true;
+    const res = await axios.post(
+      process.env.REACT_APP_SERVER + "/api/contact/add",
+      newItem
+    );
+    const isSuccessful = res.data.isSuccessful;
 
     // Show submit message
     if (isSuccessful) {
@@ -33,7 +44,8 @@ class ContactPage extends Component {
         email: "",
         description: "",
         submitStatus: "text-danger",
-        submitMessage: "Oops! Something went wrong :(",
+        submitMessage:
+          "Oops! something went wrong. Couldn't send your message. Don't worry, I notified Manikumar about this!",
       });
     }
   };

@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 logging.basicConfig(filename="portfolio_logs.log")
 
-if os.environ["ENV"] == "dev":
+if os.environ["ENV"] == "local":
     from flask_cors import CORS
 
     CORS(app)

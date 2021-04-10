@@ -28,7 +28,7 @@ function Title(props) {
 
 Title.defaultProps = {
   name: "Manikumar Perla",
-  lead: "I am a full stack developer from India",
+  lead: "Software developer at LINE Corporation",
 };
 
 Title.propTypes = {

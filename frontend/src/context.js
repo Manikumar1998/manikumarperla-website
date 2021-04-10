@@ -28,16 +28,18 @@ export class Provider extends Component {
     recommendations: [],
   };
   async componentDidMount() {
+    const serverUrl =
+      process.env.ENV === "local" ? "http://127.0.0.1:8000" : "";
     const [
       resultRecommendations,
       resultSkills,
       resultProjects,
       resultBlogs,
     ] = await Promise.all([
-      axios.get(process.env.REACT_APP_SERVER + "/api/recommendations"),
-      axios.get(process.env.REACT_APP_SERVER + "/api/skills"),
-      axios.get(process.env.REACT_APP_SERVER + "/api/projects"),
-      axios.get(process.env.REACT_APP_SERVER + "/api/blogs"),
+      axios.get(serverUrl + "/api/recommendations"),
+      axios.get(serverUrl + "/api/skills"),
+      axios.get(serverUrl + "/api/projects"),
+      axios.get(serverUrl + "/api/blogs"),
     ]);
 
     this.setState({
